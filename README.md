@@ -61,4 +61,4 @@ F.A.Q
 
 
 
-Thanks to [MadeOfMagicAndWires](https://github.com/MadeOfMagicAndWires) for the README example
+Thanks to [MadeOfMagicAndWires](https://github.com/MadeOfMagicAndWires) for the README template
