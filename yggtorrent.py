@@ -1,5 +1,5 @@
-#VERSION: 0.1
-#AUTHORS: Baptiste Crépin
+#VERSION: 0.2
+#AUTHORS: CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
