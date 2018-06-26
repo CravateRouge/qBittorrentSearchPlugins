@@ -1,13 +1,32 @@
 qBittorrent Search plugins
 ==========================
 
+[torrent9](http://www.torrent9.ec) is a public french torrent search engine.
+
 [yggtorrent.is](https://www1.yggtorrent.is) is a french semi-private tracker that specialises in high-quality,
 well-seeded torrents.
 
 Installation
 ------------
+### Torrent9
 
+Download the [plugin file](torrent9.py) or copy the
+following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/torrent9.py).
+
+After you've done this you can add this plugin to qBittorrent by going:
+
+<kbd>Search tab</kbd> 🡪 <kbd>Search Plugins</kbd> 🡪 <kbd>Install a new one</kbd>  
+<kbd>Local File</kbd> then select the plugin file
+ **or**
+<kbd>Web Link</kbd> then insert the link you copied.
+
+Or by manually copying the `yggtorrent.py` to the following location:
+  * Linux: `~/.local/share/data/qBittorrent/nova/engines/torrent9.py`
+  * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/torrent9.py`
+  * Windows: `C:\Documents and Settings\username\Local Settings\Application Data\qBittorrent\nova\engines\torrent9.py`
+  
 ### YggTorrent
+
 Download the [plugin file](yggtorrent.py) or copy the
 following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py).
 
@@ -38,18 +57,7 @@ So if your username is `foobar` and your `password` is bazqux these lines should
     password = "bazqux"
     ...
 ```
-
-After you've done this you can add this plugin to qBittorrent by going:
-
-<kbd>Search tab</kbd> 🡪 <kbd>Search Plugins</kbd> 🡪 <kbd>Install a new one</kbd>  
-<kbd>Local File</kbd> then select the plugin file
- **or**
-<kbd>Web Link</kbd> then insert the link you copied.
-
-Or by manually copying the `yggtorrent.py` to the following location:
-  * Linux: `~/.local/share/data/qBittorrent/nova/engines/yggtorrent.py`
-  * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/yggtorrent.py`
-  * Windows: `C:\Documents and Settings\username\Local Settings\Application Data\qBittorrent\nova\engines\yggtorrent.py`
+After this is done you can follow the same steps as with the other plugin.
 
 F.A.Q
 -----
