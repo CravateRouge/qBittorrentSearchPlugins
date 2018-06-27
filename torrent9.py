@@ -34,7 +34,7 @@ from helpers import download_file, retrieve_url
 
 class torrent9(object):
     """ Search engine class """
-    url = 'http://www.torrent9.ec'
+    url = 'http://www.torrent9.blue'
     name = 'Torrent9'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films', 'books': 'ebook', 'software': 'logiciels', 'tv':'series'}
 
@@ -123,8 +123,14 @@ class torrent9(object):
         def handle_data(self, data):
             """ Parser's data handler """
             if self.save_item:
-                self.current_item[self.save_item] = data
-                self.save_item = None
+                if self.save_item == "name":
+                    # names with special characters like '&' are splitted in several pieces
+                    if 'name' not in self.current_item:
+                        self.current_item["name"] = ''
+                    self.current_item["name"] += data.strip() 
+                else:
+                    self.current_item[self.save_item] = data
+                    self.save_item = None
 
 
     def search(self, what, cat='all'):
