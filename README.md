@@ -3,7 +3,7 @@ qBittorrent Search plugins
 
 [torrent9](http://www.torrent9.ec) is a public french torrent search engine.
 
-[yggtorrent.is](https://www1.yggtorrent.is) is a french semi-private tracker that specialises in high-quality,
+[yggtorrent.to](https://yggtorrent.to) is a french semi-private tracker that specialises in high-quality,
 well-seeded torrents.
 
 Installation
@@ -32,7 +32,7 @@ following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearc
 
 Because YggTorrent requires your login info, this plugin requires a bit more work than most.
 
-1. Firstly you'll need an [account](https://ww1.yggtorrent.is/user/register)
+1. Firstly you'll need an [account](https://yggtorrent.to/user/register)
 
 2. Then you need to put your login information directly into the [plugin file](yggtorrent.py):
 
