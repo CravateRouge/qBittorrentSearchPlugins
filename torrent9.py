@@ -34,7 +34,7 @@ from helpers import download_file, retrieve_url
 
 class torrent9(object):
     """ Search engine class """
-    url = 'http://www.torrent9.blue'
+    url = 'http://www.torrent9.ph'
     name = 'Torrent9'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films', 'books': 'ebook', 'software': 'logiciels', 'tv':'series'}
 
