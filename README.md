@@ -1,7 +1,7 @@
 qBittorrent Search plugins
 ==========================
 
-[torrent9](http://www.torrent9.ec) is a public french torrent search engine.
+[torrent9](http://www.torrent9.ph) is a public french torrent search engine.
 
 [yggtorrent.to](https://yggtorrent.to) is a french semi-private tracker that specialises in high-quality,
 well-seeded torrents.
