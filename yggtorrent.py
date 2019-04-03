@@ -1,4 +1,4 @@
-#VERSION: 0.2
+#VERSION: 0.3
 #AUTHORS: CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import tempfile, os, urllib.request, urllib.error, urllib.parse
+import tempfile, os, io, gzip
 
-from http.cookiejar import CookieJar
+from urllib import request, error, parse
 
 # import qBT modules
 from html.parser import HTMLParser
 from novaprinter import prettyPrinter
-from helpers import retrieve_url
+from helpers import htmlentitydecode
 
 class yggtorrent(object):
     """ Search engine class """
@@ -45,13 +45,55 @@ class yggtorrent(object):
     password = "YOUR PASSWORD"
    ###########################################################################
 
-    url = 'https://yggtorrent.to'
+    url = 'https://www2.yggtorrent.gg'
     name = 'YGG Torrent'
     supported_categories = {'all': '', 'music': '2139', 'movies': '2145', 'games':'2142', 'software': '2144', 'books': '2140'}
 
     ua = 'Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0'
     sesh = None
 
+    def login(self):        
+        formdata = {"id": self.username, "pass": self.password}
+        data_encoded = parse.urlencode(formdata).encode('utf-8')
+
+        opener = request.build_opener(request.HTTPCookieProcessor)
+        opener.addheaders = [('User-Agent',self.ua)]
+        opener.open(self.url)
+        opener.open('/'.join((self.url, 'user', 'login')), data_encoded)
+        
+        self.sesh = opener
+        
+    #We must use a custom function because we must handle cookies to have access to the site
+    def retrieve_url(self, url):
+        if self.sesh is None:
+            self.login()
+            
+        try:
+            response = self.sesh.open(url)
+        except error.URLError as errno:
+            print(" ".join(("Connection error:", str(errno.reason))))
+            return ""
+            
+        dat = response.read()
+        
+        # Check if it is gzipped
+        if dat[:2] == b'\x1f\x8b':
+            # Data is gzip encoded, decode it
+            compressedstream = io.BytesIO(dat)
+            gzipper = gzip.GzipFile(fileobj=compressedstream)
+            extracted_data = gzipper.read()
+            dat = extracted_data
+        info = response.info()
+        charset = 'utf-8'
+        try:
+            ignore, charset = info['Content-Type'].split('charset=')
+        except Exception:
+            pass
+        dat = dat.decode(charset, 'replace')
+        dat = htmlentitydecode(dat)
+         
+        return dat
+        
     class MyHtmlParseWithBlackJack(HTMLParser):
         """ Parser class """
         def __init__(self, list_searches, url):
@@ -151,7 +193,8 @@ class yggtorrent(object):
             query_string = 'search?name=%s&category=%s&do=search&order=desc&sort=seed'%(what, self.supported_categories[cat]) 
             query = "/".join((self.url, "engine", query_string))
 
-            response = retrieve_url(query)
+            response = self.retrieve_url(query)
+
             list_searches = []
             parser = self.MyHtmlParseWithBlackJack(list_searches, self.url)
             parser.feed(response)
@@ -159,38 +202,36 @@ class yggtorrent(object):
 
             parser.add_query = False
             for search_query in list_searches:
-                response = retrieve_url(search_query)
+                response = self.retrieve_url(search_query)
                 parser.feed(response)
                 parser.close()
 
             return
-
-    def login(self):
-       # Retrieve cookie
-        cj = CookieJar()
-        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
-        formdata = {"id": self.username, "pass": self.password}
-        data_encoded = urllib.parse.urlencode(formdata).encode('utf-8')
-
-        # change user-agent
-        opener.addheaders.pop()
-        opener.addheaders.append(('User-Agent', self.ua))
-
-        response = opener.open('/'.join((self.url, 'user', 'login')), data_encoded)
-        self.sesh = opener
       
     def download_file(self, url, referer=None):
         """ Download file at url and write it to a file, return the path to the file and the url """
         file, path = tempfile.mkstemp()
         file = os.fdopen(file, "wb")
 
-        if not self.sesh:
+        if self.sesh is None:
             self.login()
-        
-       # Download url
-        response = self.sesh.open(url)
+            
+        try:
+            response = self.sesh.open(url)
+        except error.URLError as errno:
+            print(" ".join(("Connection error:", str(errno.reason))))
+            return ""
+            
         dat = response.read()
-
+        
+        # Check if it is gzipped
+        if dat[:2] == b'\x1f\x8b':
+            # Data is gzip encoded, decode it
+            compressedstream = io.BytesIO(dat)
+            gzipper = gzip.GzipFile(fileobj=compressedstream)
+            extracted_data = gzipper.read()
+            dat = extracted_data
+        
         # Write it to a file
         file.write(dat)
         file.close()
