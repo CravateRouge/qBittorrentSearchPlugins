@@ -34,7 +34,7 @@ from helpers import download_file, retrieve_url
 
 class torrent9(object):
     """ Search engine class """
-    url = 'http://www.torrent9.ph'
+    url = 'https://wvw.torrent9.uno'
     name = 'Torrent9'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films', 'books': 'ebook', 'software': 'logiciels', 'tv':'series'}
 
@@ -43,7 +43,7 @@ class torrent9(object):
         dl_link = re_compile("/downloading/[^\"]+")
         data = retrieve_url(desc_link)
         dl_url = dl_link.findall(data)[0]        
-        print(download_file(self.url + dl_url))
+        print(download_file(self.url+dl_url))
 
     class MyHtmlParseWithBlackJack(HTMLParser):
         """ Parser class """
@@ -66,8 +66,8 @@ class torrent9(object):
             """ Handler for start tag a """
             params = dict(attrs)
             link = params["href"]
-            if link.startswith("/torrent"):
-                full_link = "".join((self.url, link))
+            if "/torrent" in link:
+                full_link = link
                 self.current_item["desc_link"] = full_link
                 self.current_item["link"] = full_link
                 self.save_item = "name"
@@ -96,20 +96,22 @@ class torrent9(object):
             elif tag == "table":
                 self.result_tbody = True
 
-            elif self.add_query:
-                if self.result_query and tag == "a" and attrs:
+            elif self.add_query and attrs:
+                if self.result_query and tag == "a":
                     if len(self.list_searches) < 10:
                         self.list_searches.append(attrs[0][1])
                     else:
                         self.add_query = False
                         self.result_query = False
                 elif tag == "div":
+
                     self.result_query = "pagination-mian" == attrs[0][1]
 
         def handle_endtag(self, tag):
             """ Parser's end tag handler """
             if self.result_tbody:
                 if tag == "tr":
+                    print(self.current_item)
                     prettyPrinter(self.current_item)
                     self.current_item = None
                     self.index_td = 0
@@ -139,7 +141,7 @@ class torrent9(object):
         cat = cat.lower()
         query = "/".join((self.url, "search_torrent", self.supported_categories[cat], what))
         query = query + '.html,trie-seeds-d'
-
+        print(query)
         response = retrieve_url(query)
 
         list_searches = []
