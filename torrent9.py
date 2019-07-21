@@ -34,13 +34,13 @@ from helpers import download_file, retrieve_url
 
 class torrent9(object):
     """ Search engine class """
-    url = 'https://wvw.torrent9.uno'
+    url = 'https://www.torrent9.cz'
     name = 'Torrent9'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films', 'books': 'ebook', 'software': 'logiciels', 'tv':'series'}
 
     def download_torrent(self, desc_link):
         """ Downloader """
-        dl_link = re_compile("/downloading/[^\"]+")
+        dl_link = re_compile("/download/[a-zA-Z0-9]+")
         data = retrieve_url(desc_link)
         dl_url = dl_link.findall(data)[0]        
         print(download_file(self.url+dl_url))
@@ -65,12 +65,10 @@ class torrent9(object):
         def handle_start_tag_a(self, attrs):
             """ Handler for start tag a """
             params = dict(attrs)
-            link = params["href"]
-            if "/torrent" in link:
-                full_link = link
-                self.current_item["desc_link"] = full_link
-                self.current_item["link"] = full_link
-                self.save_item = "name"
+            link = self.url+params["href"]
+            self.current_item["desc_link"] = link
+            self.current_item["link"] = link
+            self.save_item = "name"
 
         def handle_start_tag_td(self, attrs):
             """ Handler for start tag td """
@@ -111,7 +109,6 @@ class torrent9(object):
             """ Parser's end tag handler """
             if self.result_tbody:
                 if tag == "tr":
-                    print(self.current_item)
                     prettyPrinter(self.current_item)
                     self.current_item = None
                     self.index_td = 0
@@ -139,11 +136,8 @@ class torrent9(object):
         """ Performs search """
         #prepare query. 7 is filtering by seeders
         cat = cat.lower()
-        query = "/".join((self.url, "search_torrent", self.supported_categories[cat], what))
-        query = query + '.html,trie-seeds-d'
-        print(query)
+        query = "/".join((self.url, "recherche", what))
         response = retrieve_url(query)
-
         list_searches = []
         parser = self.MyHtmlParseWithBlackJack(list_searches, self.url)
         parser.feed(response)
