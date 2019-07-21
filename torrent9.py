@@ -1,4 +1,4 @@
-#VERSION: 2.1
+#VERSION: 2.2
 #AUTHORS:   CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
