@@ -190,6 +190,7 @@ class yggtorrent(object):
             """ Performs search """
             #prepare query. 7 is filtering by seeders
             cat = cat.lower()
+            what = parse.quote_plus(what)
             query_string = 'search?name=%s&category=%s&do=search&order=desc&sort=seed'%(what, self.supported_categories[cat]) 
             query = "/".join((self.url, "engine", query_string))
 
