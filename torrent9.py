@@ -40,7 +40,7 @@ class torrent9(object):
 
     def download_torrent(self, desc_link):
         """ Downloader """
-        dl_link = re_compile("/download/[a-zA-Z0-9]+")
+        dl_link = re_compile("/get_torrents/[a-zA-Z0-9]+")
         data = retrieve_url(desc_link)
         dl_url = dl_link.findall(data)[0]        
         print(download_file(self.url+dl_url))
