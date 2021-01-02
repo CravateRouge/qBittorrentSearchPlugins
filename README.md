@@ -1,17 +1,17 @@
 qBittorrent Search plugins
 ==========================
 
-[torrent9](https://wvw.torrent9.uno) is a public french torrent search engine.
+[OxTorrent](https://www.oxtorrent.co) is a public french torrent search engine.
 
 [yggtorrent](https://yggtorrent.ch) is a french semi-private tracker that specialises in high-quality,
 well-seeded torrents.
 
 Installation
 ------------
-### Torrent9
+### OxTorrent
 
-Download the [plugin file](torrent9.py) or copy the
-following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/torrent9.py).
+Download the [plugin file](oxtorrent.py) or copy the
+following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/oxtorrent.py).
 
 After you've done this you can add this plugin to qBittorrent by going:
 
@@ -20,10 +20,10 @@ After you've done this you can add this plugin to qBittorrent by going:
  **or**
 <kbd>Web Link</kbd> then insert the link you copied.
 
-Or by manually copying the `yggtorrent.py` to the following location:
-  * Linux: `~/.local/share/data/qBittorrent/nova/engines/torrent9.py`
-  * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/torrent9.py`
-  * Windows: `%localappdata%\qBittorrent\nova3\engines\torrent9.py`
+Or by manually copying the `oxtorrent.py` to the following location:
+  * Linux: `~/.local/share/data/qBittorrent/nova/engines/oxtorrent.py`
+  * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/oxtorrent.py`
+  * Windows: `%localappdata%\qBittorrent\nova3\engines\oxtorrent.py`
   
 ### YggTorrent
 
