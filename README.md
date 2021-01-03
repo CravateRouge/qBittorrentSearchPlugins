@@ -5,6 +5,10 @@ qBittorrent Search plugins
 
 [yggtorrent](https://yggtorrent.ch) is a french semi-private tracker that specialises in high-quality,
 well-seeded torrents.
+| :warning: WARNING          |
+|:---------------------------|
+| The YggTorrent plugin is partially working because of the cloudflare DDOS protection see also [#10](/../../issues/10) |
+
 
 Installation
 ------------
