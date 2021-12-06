@@ -1,4 +1,5 @@
-#VERSION: 1.0
+#VERSION: 1.1
+#AUTHORS:   Gandalf (github.com/erdoukki)
 #AUTHORS:   CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
@@ -25,127 +26,101 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from re import compile as re_compile
-from re import search as re_search
+import re
+import urllib.parse
 
-from html.parser import HTMLParser
-#qBt
+from helpers import retrieve_url, download_file
 from novaprinter import prettyPrinter
-from helpers import retrieve_url
 
 class oxtorrent(object):
     """ Search engine class """
-    url = 'https://www.oxtorrent.co'
+    url = 'https://www.oxtorrent.vc'
     name = 'OxTorrent'
-    supported_categories = {'all': '', 'music': 'musique', 'movies': 'films', 'books': 'ebook', 'software': 'logiciels', 'tv':'series'}
+    supported_categories = {'all': '','music': 'musique','movies': 'films','books': 'ebook','software': 'logiciels','tv': 'series'}
 
-    def download_torrent(self, desc_link):
-        """ Downloader """
-        page = retrieve_url(desc_link)
-        magnet_match = re_search(r"href\s*\=\s*\"(magnet[^\"]+)\"", page)
+    # OxTorrent's search divided into results, so we are going to set a limit on how many results to read
+    max_pages = 1000
+               
+    class HTMLParser:
+        def __init__(self, url):
+            self.url = url
+            self.pageResSize = 0
+            self.page_empty = 20000
+                        
+        def feed(self, html):
+            self.pageResSize = 0
+            torrents = self.__findTorrents(html)
+            resultSize = len(torrents)
+            if resultSize == 0:
+                return
+            else:
+                self.pageResSize = resultSize
+            for torrent in range(resultSize):
+                data = {
+                    'link': urllib.parse.quote(torrents[torrent][0]),
+                    'name': torrents[torrent][1],
+                    'size': torrents[torrent][2],
+                    'seeds': torrents[torrent][3],
+                    'leech': torrents[torrent][4],
+                    'engine_url': self.url,
+                    'desc_link': torrents[torrent][5]
+                }
+                prettyPrinter(data)
+                                
+        def __findTorrents(self, html):
+            torrents = []
+            trs = re.findall(r'<td .+i> <a href=\".+</a></div></td>\n<td .+\n<td .+\n<td .+</td>\n</tr>', html)
+            for tr in trs:
+                # Extract from the A node all the needed information
+                url_titles = re.search(r'<td .+i> <a href=\"(.+)\" title=.+>(.+)</a></div></td>\n<td .+\"left\">([0-9\,\.]+ (TB|GB|MB|KB))</td>\n<td .+\"seeders\">.*([0-9,.]+).*</td>\n<td .+\"leechers\">.*([0-9,.]+).*</td>\n</tr>', tr)
+                if url_titles:
+#                    info_page = retrieve_url(self.url+url_titles.group(1))
+#                    file_link = re.search(r"window.location.href.*=.*\'(/telecharger/.+)\';", info_page)
+#                    torrent_url = self.url+file_link.group(1)
+#                    torrents.append([torrent_url, url_titles.group(2), url_titles.group(3), url_titles.group(5), url_titles.group(6), self.url+url_titles.group(1)])
+                    torrents.append([self.url+url_titles.group(1), url_titles.group(2), url_titles.group(3), url_titles.group(5), url_titles.group(6), self.url+url_titles.group(1)])
+            return torrents
+
+    def download_torrent(self, info):
+        # we have to fetch the info page and extract the magnet link
+        info_page = retrieve_url(urllib.parse.unquote(info))
+        magnet_match = re.search(r"window.location.href.*=.*\'(magnet[^\"]+)\';", info_page)
         if magnet_match and magnet_match.groups():
-            print(magnet_match.groups()[0] + " " + desc_link)
+            print(magnet_match.groups()[0] + " " + info)
         else:
             raise Exception('Error, please fill a bug report!')
 
-    class MyHtmlParser(HTMLParser):
-        """ Parser class """
-        def __init__(self, list_searches, url):
-            HTMLParser.__init__(self)
-            self.list_searches = list_searches
-            self.url = url
-            self.current_item = None
-            self.save_item = None
-            self.result_tbody = False
-            self.add_query = True
-            self.result_query = False
-            self.index_td = 0
+#    def download_torrent(self, info):
+#        info_page = retrieve_url(urllib.parse.unquote(info))
+#        file_link = re.search(r"window.location.href.*=.*\'(/telecharger/.+)\';", info_page)
+#        torrent_url = self.url+file_link.group(1)
+#        print(download_file(torrent_url))
 
-        def handle_start_tag_default(self, attrs):
-            """ Default handler for start tag dispatcher """
-            pass
-
-        def handle_start_tag_a(self, attrs):
-            """ Handler for start tag a """
-            params = dict(attrs)
-            link = self.url+params["href"]
-            self.current_item["desc_link"] = link
-            self.current_item["link"] = link
-            self.save_item = "name"
-
-        def handle_start_tag_td(self, attrs):
-            """ Handler for start tag td """
-            if self.index_td == 1:
-                self.save_item = "size"
-            elif self.index_td == 2:
-                self.save_item = "seeds"
-            elif self.index_td == 3:
-                self.save_item = "leech"
-
-            self.index_td += 1
-
-        def handle_starttag(self, tag, attrs):
-            """ Parser's start tag handler """
-            if self.current_item:
-                dispatcher = getattr(self, "_".join(("handle_start_tag", tag)), self.handle_start_tag_default)
-                dispatcher(attrs)
-
-            elif self.result_tbody:
-                if tag == "tr":
-                    self.current_item = {"engine_url" : self.url}
-
-            elif tag == "table":
-                self.result_tbody = True
-
-            elif self.add_query and attrs:
-                if self.result_query and tag == "a":
-                    if len(self.list_searches) < 10:
-                        self.list_searches.append(attrs[0][1])
-                    else:
-                        self.add_query = False
-                        self.result_query = False
-
-
-        def handle_endtag(self, tag):
-            """ Parser's end tag handler """
-            if self.result_tbody:
-                if tag == "tr":
-                    prettyPrinter(self.current_item)
-                    self.current_item = None
-                    self.index_td = 0
-                elif tag == "table":
-                    self.result_tbody = False
-
-        def handle_data(self, data):
-            """ Parser's data handler """
-            if data == "\n":
-                return
-            if self.save_item:
-                if self.save_item == "name":
-                    # names with special characters like '&' are splitted in several pieces
-                    if 'name' not in self.current_item:
-                        self.current_item["name"] = ''
-                    self.current_item["name"] += data.strip() 
-                else:
-                    self.current_item[self.save_item] = data
-                    self.save_item = None
-
-
+    # DO NOT CHANGE the name and parameters of this function
+    # This function will be the one called by nova2.py
     def search(self, what, cat='all'):
         """ Performs search """
+        """
+        Here you can do what you want to get the result from the search engine website.
+        Everytime you parse a result line, store it in a dictionary
+        and call the prettyPrint(your_dict) function.
+
+        `what` is a string with the search tokens, already escaped (e.g. "Ubuntu+Linux")
+        `cat` is the name of a search category in ('all', 'movies', 'tv', 'music', 'games', 'anime', 'software', 'pictures', 'books')
+        """
         #prepare query. 7 is filtering by seeders
         cat = cat.lower()
-        query = "/".join((self.url, "recherche", what))
-        response = retrieve_url(query)
-        list_searches = []
-        parser = self.MyHtmlParser(list_searches, self.url)
-        parser.feed(response)
+        what = what.replace("%20", "+")
+
+        parser = self.HTMLParser(self.url)
+        page = 1
+        while True:
+            page_url = "{0}/recherche/{1}/{2}".format(self.url, what, page)
+            print(page_url)
+            html = retrieve_url(page_url)
+            length_html = len(html)
+            if page > 500 or length_html <= parser.page_empty:
+                return
+            parser.feed(html)
+            page += 50
         parser.close()
-
-        parser.add_query = False
-        for search_query in list_searches:
-            response = retrieve_url(search_query)
-            parser.feed(response)
-            parser.close()
-
-        return
