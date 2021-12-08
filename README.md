@@ -3,8 +3,8 @@ qBittorrent Search plugins
 
 [OxTorrent](https://www.oxtorrent.be) is a public french torrent search engine.
 
-[yggtorrent](https://www3.yggtorrent.re/) is a french semi-private tracker that specialises in high-quality,
-well-seeded torrents.
+[yggtorrent](https://www3.yggtorrent.re/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
+
 | :warning: WARNING          |
 |:---------------------------|
 | The YggTorrent plugin is partially working because of the cloudflare DDOS protection see also [#10](/../../issues/10) |
@@ -14,29 +14,26 @@ Installation
 ------------
 ### OxTorrent
 
-Download the [plugin file](oxtorrent.py) or copy the
-following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/oxtorrent.py).
+Download the [plugin file](oxtorrent.py) or copy the following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/oxtorrent.py).
 
-After you've done this you can add this plugin to qBittorrent by going:
+After you've done this, you can add this plugin to qBittorrent by doing:
 
-<kbd>Search tab</kbd> 🡪 <kbd>Search Plugins</kbd> 🡪 <kbd>Install a new one</kbd>  
-<kbd>Local File</kbd> then select the plugin file
+<kbd>Search tab</kbd> 🡪 <kbd>Search Plugins</kbd> 🡪 <kbd>Install a new one</kbd> 🡪 <kbd>Local File</kbd> then select the plugin file.
  **or**
 <kbd>Web Link</kbd> then insert the link you copied.
 
-Or by manually copying the `oxtorrent.py` to the following location:
+Or manually copying the `oxtorrent.py` to the following location:
   * Linux: `~/.local/share/data/qBittorrent/nova/engines/oxtorrent.py`
   * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/oxtorrent.py`
   * Windows: `%localappdata%\qBittorrent\nova3\engines\oxtorrent.py`
   
 ### YggTorrent
 
-Download the [plugin file](yggtorrent.py) or copy the
-following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py).
+Download the [plugin file](yggtorrent.py) or copy the following [link](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py).
 
-Because YggTorrent requires your login info, this plugin requires a bit more work than most.
+Because YggTorrent requires your login info, this plugin requires a bit more work than the one above.
 
-1. Firstly you'll need an [account](https://www3.yggtorrent.re/user/register)
+1. Firstly, you need an [account](https://www3.yggtorrent.re/user/register)
 
 2. Then you need to put your login information directly into the [plugin file](yggtorrent.py):
 
@@ -51,8 +48,8 @@ You can do this by editing these specific lines (lineno. 40:56).
     ##########################################################################
     ...
 ```
-Now replace the "YOUR USERNAME" and "YOUR PASSWORD" with *your* username and password, surrounded by quotation marks.  
-So if your username is `foobar` and your `password` is bazqux these lines should read:
+Replace `YOUR USERNAME` and `YOUR PASSWORD` with *your* username and password, surrounded by quotation marks.  
+For example, if your username is `foobar` and your password is `bazqux`:
 ```python
     ...
     # SET THESE VALUES
@@ -61,7 +58,7 @@ So if your username is `foobar` and your `password` is bazqux these lines should
     password = "bazqux"
     ...
 ```
-After this is done you can follow the same steps as with the other plugin.
+When this is done, you can follow the same steps as with the other plugin.
 
 F.A.Q
 -----
