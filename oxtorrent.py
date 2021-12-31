@@ -1,6 +1,6 @@
-#VERSION: 1.2.2
-#AUTHORS:   Gandalf (github.com/erdoukki)
-#AUTHORS:   CravateRouge (github.com/CravateRouge)
+#VERSION: 2.3
+# AUTHORS: Gandalf (github.com/erdoukki)
+# CONTRIBUTORS: CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,6 @@ import urllib.parse
 from helpers import retrieve_url
 from novaprinter import prettyPrinter
 
-
 class oxtorrent(object):
     """ Search engine class """
     url = 'https://www.oxtorrent.be'
@@ -59,8 +58,14 @@ class oxtorrent(object):
             else:
                 self.pageResSize = resultSize
             for torrent in range(resultSize):
+                info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
+                file_link = re.search(r"window.location.href.*=.*\'(/telecharger/.+)\';", info_page)
+                torrent_url = self.url+file_link.group(1)
+#                info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
+#                magnet_match = re.search(r"window.location.href.*=.*\'(magnet[^\"]+)\';", info_page)
+#                torrent_url = magnet_match.groups()[0]
                 data = {
-                    'link': urllib.parse.quote(torrents[torrent][0]),
+                    'link': torrent_url,
                     'name': torrents[torrent][1],
                     'size': torrents[torrent][2],
                     'seeds': torrents[torrent][3],
@@ -85,21 +90,6 @@ class oxtorrent(object):
                         [self.url + url_titles.group(1), url_titles.group(2), url_titles.group(3),
                          url_titles.group(5), url_titles.group(6), self.url + url_titles.group(1)])
             return torrents
-
-    def download_torrent(self, info):
-        # we have to fetch the info page and extract the magnet link
-        info_page = retrieve_url(urllib.parse.unquote(info))
-        magnet_match = re.search(r"window.location.href.*=.*\'(magnet[^\"]+)\';", info_page)
-        if magnet_match and magnet_match.groups():
-            print(magnet_match.groups()[0] + " " + info)
-        else:
-            raise Exception('Error, please fill a bug report!')
-
-#    def download_torrent(self, info):
-#        info_page = retrieve_url(urllib.parse.unquote(info))
-#        file_link = re.search(r"window.location.href.*=.*\'(/telecharger/.+)\';", info_page)
-#        torrent_url = self.url+file_link.group(1)
-#        print(download_file(torrent_url))
 
     # DO NOT CHANGE the name and parameters of this function
     # This function will be the one called by nova2.py
