@@ -23,7 +23,7 @@ After you've done this, you can add this plugin to qBittorrent by doing:
 <kbd>Web Link</kbd> then insert the link you copied.
 
 Or manually copying the `oxtorrent.py` to the following location:
-  * Linux: `~/.local/share/data/qBittorrent/nova/engines/oxtorrent.py`
+  * Linux: `~/.local/share/data/qBittorrent/nova3/engines/oxtorrent.py`
   * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/oxtorrent.py`
   * Windows: `%localappdata%\qBittorrent\nova3\engines\oxtorrent.py`
   
