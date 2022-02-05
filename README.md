@@ -68,6 +68,11 @@ F.A.Q
   Because the plugin logs you in for every search, this means that the torrent files you open using it are your
   personal ones. It's effectively no different than if you'd visit the site and download the torrent manually.
 
+2. **PROXY mode may had issue with search engine**
+
+  While using a tor relay with a socks proxy mode, you may get no results form search engines request.
+  Setting the Poxy Mode to SOCKS4 may fix this issue.
+
 
 
 Thanks to [MadeOfMagicAndWires](https://github.com/MadeOfMagicAndWires) for the README template
