@@ -71,7 +71,7 @@ F.A.Q
 2. **PROXY mode may had issue with search engine**
 
   While using a tor relay with a socks proxy mode, you may get no results form search engines request.
-  Setting the Poxy Mode to SOCKS4 may fix this issue.
+  Setting the Poxy Mode to SOCKS4 may fix this issue. You may also use SOCKS5 but have to enable "use only for torrents" option.
 
 
 
