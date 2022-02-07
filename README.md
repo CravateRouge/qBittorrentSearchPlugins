@@ -23,7 +23,7 @@ After you've done this, you can add this plugin to qBittorrent by doing:
 <kbd>Web Link</kbd> then insert the link you copied.
 
 Or manually copying the `oxtorrent.py` to the following location:
-  * Linux: `~/.local/share/data/qBittorrent/nova/engines/oxtorrent.py`
+  * Linux: `~/.local/share/data/qBittorrent/nova3/engines/oxtorrent.py`
   * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/oxtorrent.py`
   * Windows: `%localappdata%\qBittorrent\nova3\engines\oxtorrent.py`
   
@@ -67,6 +67,11 @@ F.A.Q
 
   Because the plugin logs you in for every search, this means that the torrent files you open using it are your
   personal ones. It's effectively no different than if you'd visit the site and download the torrent manually.
+
+2. **PROXY mode may had issue with search engine**
+
+  While using a tor relay with a socks proxy mode, you may get no results form search engines request.
+  Setting the Poxy Mode to SOCKS4 may fix this issue. You may also use SOCKS5 but have to enable "use only for torrents" option.
 
 
 
