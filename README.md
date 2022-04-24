@@ -3,7 +3,7 @@ qBittorrent Search plugins
 
 [OxTorrent](https://www.oxtorrent.be) is a public french torrent search engine. The new official URL is now [Torrent911](www.torrent911.com).
 
-[yggtorrent](https://www3.yggtorrent.re/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
+[yggtorrent](https://yggtorrent.la/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
 
 | :warning: WARNING          |
 |:---------------------------|
