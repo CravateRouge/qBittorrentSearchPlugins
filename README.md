@@ -1,13 +1,15 @@
 qBittorrent Search plugins
 ==========================
 
-[OxTorrent](https://www.oxtorrent.sk/) is a public french torrent search engine. The new official URL is now [Torrent911](www.torrent911.com).
+[OxTorrent](https://www.oxtorrent.sk/) is a public french torrent search engine.
 
 [yggtorrent](https://yggtorrent.fi/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
 
 | :warning: WARNING          |
 |:---------------------------|
+| Your default DNS can block access to torrent websites. Use Google or Cloudflare DNS instead |
 | The YggTorrent plugin is partially working because of the cloudflare DDOS protection see also [#10](/../../issues/10) |
+
 
 
 Installation
