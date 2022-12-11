@@ -34,7 +34,7 @@ from novaprinter import prettyPrinter
 
 class oxtorrent(object):
     """ Search engine class """
-    url = 'https://www.torrent911.com'
+    url = 'https://www.oxtorrent.sk'
     name = 'OxTorrent'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films',
                             'books': 'ebook', 'software': 'logiciels', 'tv': 'series'}
@@ -59,7 +59,7 @@ class oxtorrent(object):
                 self.pageResSize = resultSize
             for torrent in range(resultSize):
                 info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
-                file_link = re.search(r"window.location.href.*=.*\'(/telecharger/.+)\';", info_page)
+                file_link = re.search(r"(/get_torrents/[0-9a-zA-Z]+)", info_page)
                 torrent_url = self.url+file_link.group(1)
 #                info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
 #                magnet_match = re.search(r"window.location.href.*=.*\'(magnet[^\"]+)\';", info_page)
