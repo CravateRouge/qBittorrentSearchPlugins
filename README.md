@@ -1,9 +1,9 @@
 qBittorrent Search plugins
 ==========================
 
-[OxTorrent](https://www.oxtorrent.be) is a public french torrent search engine. The new official URL is now [Torrent911](www.torrent911.com).
+[OxTorrent](https://www.oxtorrent.sk/) is a public french torrent search engine. The new official URL is now [Torrent911](www.torrent911.com).
 
-[yggtorrent](https://yggtorrent.la/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
+[yggtorrent](https://yggtorrent.fi/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
 
 | :warning: WARNING          |
 |:---------------------------|
@@ -23,7 +23,7 @@ After you've done this, you can add this plugin to qBittorrent by doing:
 <kbd>Web Link</kbd> then insert the link you copied.
 
 Or manually copying the `oxtorrent.py` to the following location:
-  * Linux: `~/.local/share/data/qBittorrent/nova3/engines/oxtorrent.py`
+  * Linux: `~/.local/share/qBittorrent/nova3/engines/oxtorrent.py`
   * Mac: ``~/Library/Application Support/qBittorrent/nova/engines/oxtorrent.py`
   * Windows: `%localappdata%\qBittorrent\nova3\engines\oxtorrent.py`
   
@@ -33,7 +33,7 @@ Download the [plugin file](yggtorrent.py) or copy the following [link](https://r
 
 Because YggTorrent requires your login info, this plugin requires a bit more work than the one above.
 
-1. Firstly, you need an [account](https://www3.yggtorrent.re/user/register)
+1. Firstly, you need an [account](https://www5.yggtorrent.fi/user/register)
 
 2. Then you need to put your login information directly into the [plugin file](yggtorrent.py):
 
