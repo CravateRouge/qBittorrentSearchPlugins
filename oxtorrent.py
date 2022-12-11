@@ -1,4 +1,4 @@
-#VERSION: 2.4
+#VERSION: 2.5
 # AUTHORS: Gandalf (github.com/erdoukki)
 # CONTRIBUTORS: CravateRouge (github.com/CravateRouge)
 
