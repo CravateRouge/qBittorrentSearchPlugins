@@ -45,7 +45,7 @@ class yggtorrent(object):
     password = "YOUR PASSWORD"
    ###########################################################################
 
-    url = 'https://www5.yggtorrent.fi'
+    url = ''
     name = 'YGG Torrent'
     supported_categories = {'all': '', 'music': '2139', 'movies': '2145', 'games':'2142', 'software': '2144', 'books': '2140'}
 
@@ -62,6 +62,23 @@ class yggtorrent(object):
         opener.open('/'.join((self.url, 'user', 'login')), data_encoded)
         
         self.sesh = opener
+        
+    #Retrieve the current YGGTorrent URL from the FAQ page of YGGLand
+    def get_ygg_current_url(self):
+        url = "https://yggland.fr/FAQ-Tutos/"
+        req = request.Request(url, headers={'User-Agent': self.ua})
+        try:
+            with request.urlopen(req) as page:
+                html = page.read().decode('utf-8')
+        except error.HTTPError:
+            return None
+        search_str = '.yggtorrent.'
+        start = html.find(search_str)
+        if start == -1:
+            return None
+        start += html[start:].find('https')
+        end = html[start:].find('<')
+        return html[start:start+end] if end != -1 else html[start:]
         
     #We must use a custom function because we must handle cookies to have access to the site
     def retrieve_url(self, url):
@@ -189,6 +206,9 @@ class yggtorrent(object):
     def search(self, what, cat='all'):
             """ Performs search """
             #prepare query. 7 is filtering by seeders
+            if len(self.url) == 0:
+                self.url = self.get_ygg_current_url()
+                
             cat = cat.lower()
             what = parse.quote_plus(what)
             query_string = 'search?name=%s&category=%s&do=search&order=desc&sort=seed'%(what, self.supported_categories[cat]) 
