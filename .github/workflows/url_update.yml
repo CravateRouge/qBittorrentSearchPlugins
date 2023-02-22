@@ -1,0 +1,33 @@
+name: Update Torrent Websites URL
+
+on:
+  schedule:
+    - cron: "45 11 * * *"
+
+jobs:
+  update-url:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+      - name: Update YGGTorrent URL
+        run: |
+          OLD_YGG=$(grep -Po "url = '\K[^']" yggtorrent.py)
+          echo "fetched old url $OLD_YGG"
+          NEW_YGG=$(curl -Ls -o /dev/null -w %{url_effective} $OLD_YGG)
+          echo "fetched new url $NEW_YGG"
+          NEW_STATUS=$(curl -s -o /dev/null -w %{http_code} $NEW_YGG)
+          echo "fetched new status $NEW_STATUS"
+          if [[ NEW_STATUS == 200 ]]
+          then
+            find . -type f -exec sed -i "s/$OLD_YGG/$NEW_YGG/g" {} +
+            echo "SUCCESS: $OLD_YGG replaces with $NEW_YGG"
+            git config --global user.name 'CravateRouge'
+            git config --global user.email 'cravaterouge@users.noreply.github.com'
+            git commit -am "Automated url update from $OLD_YGG to $NEW_YGG"
+            git push
+          else
+            echo "ERROR: new url $NEW_YGG returns status $NEW_STATUS. Update Canceled"
+          fi
+      
