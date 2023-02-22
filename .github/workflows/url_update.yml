@@ -22,7 +22,7 @@ jobs:
           echo "fetched new status $NEW_STATUS"
           if [[ NEW_STATUS != 000 ]]
           then
-            find . -type f -exec sed -i "s/$OLD_YGG/$NEW_YGG/g" {} +
+            find . -type f -exec sed -i "s,$OLD_YGG,$NEW_YGG,g" {} +
             echo "SUCCESS: $OLD_YGG replaces with $NEW_YGG"
             git config --global user.name 'CravateRouge'
             git config --global user.email 'cravaterouge@users.noreply.github.com'
