@@ -3,6 +3,7 @@ name: Update Torrent Websites URL
 on:
   schedule:
     - cron: "45 11 * * *"
+  workflow_dispatch:
 
 jobs:
   update-url:
