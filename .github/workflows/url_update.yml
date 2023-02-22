@@ -29,13 +29,40 @@ jobs:
           if [[ $NEW_STATUS != 000 ]]
           then
             find . -type f -exec sed -i "s,$OLD_YGG,$NEW_YGG,g" {} +
-            echo "SUCCESS: $OLD_YGG replaces with $NEW_YGG"
+            echo "SUCCESS: $OLD_YGG replaced with $NEW_YGG"
             git config --global user.name 'CravateRouge'
             git config --global user.email 'cravaterouge@users.noreply.github.com'
             git commit -am "Automated url update from $OLD_YGG to $NEW_YGG"
             git push
           else
             echo "ERROR: new url $NEW_YGG returns status $NEW_STATUS. Update Canceled"
+            exit 1
+          fi
+          
+      - name: Update OxTorrent URL
+        run: |
+          OLD_OX=$(grep -Po "url = '\K[^']+" oxtorrent.py)
+          echo "fetched old url $OLD_OX"
+          NEW_OX=$(curl -Ls -o /dev/null -w %{url_effective} $OLD_OX)
+          NEW_OX=${NEW_OX%/}
+          echo "fetched new url $NEW_OX"
+          if [[ $OLD_OX == $NEW_OX ]]
+          then
+            echo "WARNING: URL didn't changed since last time"
+            exit
+          fi
+          NEW_STATUS=$(curl -s -o /dev/null -w %{http_code} $NEW_OX)
+          echo "fetched new status $NEW_STATUS"
+          if [[ $NEW_STATUS != 000 ]]
+          then
+            find . -type f -exec sed -i "s,$OLD_OX,$NEW_OX,g" {} +
+            echo "SUCCESS: $OLD_OX replaced with $NEW_OX"
+            git config --global user.name 'CravateRouge'
+            git config --global user.email 'cravaterouge@users.noreply.github.com'
+            git commit -am "Automated url update from $OLD_OX to $NEW_OX"
+            git push
+          else
+            echo "ERROR: new url $NEW_OX returns status $NEW_STATUS. Update Canceled"
             exit 1
           fi
       
