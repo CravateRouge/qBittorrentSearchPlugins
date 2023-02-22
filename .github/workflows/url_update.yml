@@ -20,7 +20,7 @@ jobs:
           echo "fetched new url $NEW_YGG"
           NEW_STATUS=$(curl -s -o /dev/null -w %{http_code} $NEW_YGG)
           echo "fetched new status $NEW_STATUS"
-          if [[ NEW_STATUS == 200 ]]
+          if [[ NEW_STATUS != 000 ]]
           then
             find . -type f -exec sed -i "s/$OLD_YGG/$NEW_YGG/g" {} +
             echo "SUCCESS: $OLD_YGG replaces with $NEW_YGG"
