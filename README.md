@@ -3,7 +3,7 @@ qBittorrent Search plugins
 
 [OxTorrent](https://www.oxtorrent.sk/) is a public french torrent search engine.
 
-[yggtorrent](https://www6.yggtorrent.lol/) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
+[yggtorrent](https://www6.yggtorrent.lol) is a semi-private french tracker that is specialized in high-quality and well-seeded torrents.
 
 | :warning: WARNING          |
 |:---------------------------|
@@ -35,7 +35,7 @@ Download the [plugin file](yggtorrent.py) or copy the following [link](https://r
 
 Because YggTorrent requires your login info, this plugin requires a bit more work than the one above.
 
-1. Firstly, you need an [account](https://www6.yggtorrent.lol/user/register)
+1. Firstly, you need an [account](https://www6.yggtorrent.loluser/register)
 
 2. Then you need to put your login information directly into the [plugin file](yggtorrent.py):
 
