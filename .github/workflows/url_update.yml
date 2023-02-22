@@ -17,10 +17,16 @@ jobs:
           OLD_YGG=$(grep -Po "url = '\K[^']+" yggtorrent.py)
           echo "fetched old url $OLD_YGG"
           NEW_YGG=$(curl -Ls -o /dev/null -w %{url_effective} $OLD_YGG)
+          NEW_YGG=${NEW_YGG%/}
           echo "fetched new url $NEW_YGG"
+          if [[ $OLD_YGG == $NEW_YGG ]]
+          then
+            echo "WARNING: URL didn't changed since last time"
+            exit
+          fi
           NEW_STATUS=$(curl -s -o /dev/null -w %{http_code} $NEW_YGG)
           echo "fetched new status $NEW_STATUS"
-          if [[ NEW_STATUS != 000 ]]
+          if [[ $NEW_STATUS != 000 ]]
           then
             find . -type f -exec sed -i "s,$OLD_YGG,$NEW_YGG,g" {} +
             echo "SUCCESS: $OLD_YGG replaces with $NEW_YGG"
@@ -30,5 +36,6 @@ jobs:
             git push
           else
             echo "ERROR: new url $NEW_YGG returns status $NEW_STATUS. Update Canceled"
+            exit 1
           fi
       
