@@ -30,6 +30,9 @@ jobs:
           then
             find . -type f -exec sed -i "s,$OLD_YGG,$NEW_YGG,g" {} +
             echo "SUCCESS: $OLD_YGG replaced with $NEW_YGG"
+            MINVER=$(grep -Po "#VERSION: [0-9]+\.\K[0-9]+" yggtorrent.py)
+            sed -i "s,#VERSION: \([0-9]\+\)\.$MINVER,#VERSION: \1\.$((MINVER+1))," yggtorrent.py
+            echo "SUCCESS: Minor version $MINVER incremented"
             git config --global user.name 'CravateRouge'
             git config --global user.email 'cravaterouge@users.noreply.github.com'
             git commit -am "Automated url update from $OLD_YGG to $NEW_YGG"
@@ -57,6 +60,9 @@ jobs:
           then
             find . -type f -exec sed -i "s,$OLD_OX,$NEW_OX,g" {} +
             echo "SUCCESS: $OLD_OX replaced with $NEW_OX"
+            MINVER=$(grep -Po "#VERSION: [0-9]+\.\K[0-9]+" oxtorrent.py)
+            sed -i "s,#VERSION: \([0-9]\+\)\.$MINVER,#VERSION: \1\.$((MINVER+1))," oxtorrent.py
+            echo "SUCCESS: Minor version $MINVER incremented"
             git config --global user.name 'CravateRouge'
             git config --global user.email 'cravaterouge@users.noreply.github.com'
             git commit -am "Automated url update from $OLD_OX to $NEW_OX"
