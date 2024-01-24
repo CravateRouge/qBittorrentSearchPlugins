@@ -59,7 +59,7 @@ class oxtorrent(object):
                 self.pageResSize = resultSize
             for torrent in range(resultSize):
                 info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
-                file_link = re.search(r"(/get_torrents/[0-9a-zA-Z]+)", info_page)
+                file_link = re.search(r"(/get_torrent/[0-9a-zA-Z]+)", info_page)
                 torrent_url = self.url+file_link.group(1)
 #                info_page = retrieve_url(urllib.parse.unquote(urllib.parse.quote(torrents[torrent][0])))
 #                magnet_match = re.search(r"window.location.href.*=.*\'(magnet[^\"]+)\';", info_page)
@@ -106,7 +106,7 @@ class oxtorrent(object):
         """
         #prepare query. 7 is filtering by seeders
         cat = cat.lower()
-        what = what.replace("%20", "+")
+        what = what.replace(" ", "%20")
 
         parser = self.HTMLParser(self.url)
         page = 1
