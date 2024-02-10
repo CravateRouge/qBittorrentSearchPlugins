@@ -1,4 +1,4 @@
-#VERSION: 2.8
+#VERSION: 2.9
 # AUTHORS: Gandalf (github.com/erdoukki)
 # CONTRIBUTORS: CravateRouge (github.com/CravateRouge)
 
@@ -34,7 +34,7 @@ from novaprinter import prettyPrinter
 
 class oxtorrent(object):
     """ Search engine class """
-    url = 'https://www.torrent911.vc'
+    url = 'https://www.torrent911.bz'
     name = 'OxTorrent'
     supported_categories = {'all': '', 'music': 'musique', 'movies': 'films',
                             'books': 'ebook', 'software': 'logiciels', 'tv': 'series'}
