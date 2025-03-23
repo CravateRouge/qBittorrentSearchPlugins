@@ -1,4 +1,4 @@
-#VERSION: 1.3
+#VERSION: 1.4
 #AUTHORS: CravateRouge (github.com/CravateRouge)
 
 # Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ class yggtorrent(object):
     password = "YOUR PASSWORD"
    ###########################################################################
 
-    url = 'https://www.ygg.re/auth/login'
+    url = 'https://www.yggtorrent.top/auth/login'
     name = 'YGG Torrent'
     supported_categories = {'all': '', 'music': '2139', 'movies': '2145', 'games':'2142', 'software': '2144', 'books': '2140'}
 
